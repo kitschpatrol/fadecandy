@@ -9,8 +9,9 @@
  * 2014 Micah Elizabeth Scott
  */
 
-var SimplexNoise = require('simplex-noise');
-var simplex = new SimplexNoise(Math.random);
+var { createNoise2D, createNoise4D } = require('simplex-noise');
+var noise2D = createNoise2D();
+var noise4D = createNoise4D();
 
 var OPC = new require('./opc');
 var model = OPC.loadModel(process.argv[2] || '../layouts/grid32x16z.json');
@@ -38,7 +39,7 @@ function fractalNoise(x, y, z, w)
     var r = 0;
     var amp = 0.5;
     for (var octave = 0; octave < 4; octave++) {
-        r += (simplex.noise4D(x, y, z, w) + 1) * amp;
+        r += (noise4D(x, y, z, w) + 1) * amp;
         amp /= 2;
         x *= 2;
         y *= 2;
@@ -53,7 +54,7 @@ function noise(x, spin)
     // 1-dimensional noise. Cut a zig-zag path through
     // the simplex 2D noise space, so we repeat much less often.
     spin = spin || 0.01;
-    return simplex.noise2D(x, x * spin) * 0.5 + 0.5;
+    return noise2D(x, x * spin) * 0.5 + 0.5;
 }
 
 function draw()

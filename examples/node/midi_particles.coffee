@@ -34,7 +34,7 @@ argv = parseArgs process.argv.slice(2),
         opchost: 'localhost'
         opcport: 7890
 
-input = new midi.input
+input = new midi.Input
 if argv.midiport >= input.getPortCount()
     console.log "MIDI port #{ argv.midiport } isn't available!"
     process.exit 1
